@@ -8,7 +8,7 @@
         <div class="qr-placeholder">
           <img :src="wechatQr" alt="微信二维码" />
         </div>
-        <a class="btn btn-wechat" @click.prevent="closeWeChatModal">我知道了</a>
+        <span class="btn btn-wechat" @click.prevent="closeWeChatModal">我知道了</span>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
           <div class="qr-placeholder">
             <img :src="alipayQr" alt="支付宝二维码" />
           </div>
-          <a class="btn" @click.prevent="openAlipay">打开支付宝付款</a>
+          <span class="btn" @click.prevent="openAlipay">打开支付宝付款</span>
         </div>
 
         <div class="payment-option">
@@ -30,7 +30,7 @@
           <div class="qr-placeholder">
             <img :src="wechatQr" alt="微信二维码" />
           </div>
-          <a class="btn btn-wechat">请扫描二维码付款</a>
+          <span class="btn btn-wechat">请扫描二维码付款</span>
         </div>
       </div>
 
@@ -100,12 +100,6 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.modal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 .qr-placeholder {
   width: 200px;
@@ -180,6 +174,10 @@ h1 {
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   padding: 24px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .modal-title {
   font-size: 20px;
