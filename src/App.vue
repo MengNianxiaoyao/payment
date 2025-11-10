@@ -4,18 +4,16 @@
     <div v-if="showWeChatModal" class="modal-overlay">
       <div class="modal">
         <div class="modal-title">请扫描二维码付款</div>
-        <div class="modal-text">检测到你正在使用微信内置浏览器，请保存下方二维码后扫码完成付款。</div>
+        <div v-if="showModalText" class="modal-text">检测到你正在使用微信内置浏览器，请保存下方二维码后扫码完成付款。</div>
         <div class="qr-placeholder">
           <img :src="wechatQr" alt="微信二维码" />
         </div>
         <span class="btn btn-wechat" @click.prevent="closeWeChatModal">我知道了</span>
       </div>
     </div>
-
     <div class="container">
       <h1>聚合支付</h1>
       <p>请选择以下任一方式进行支付</p>
-
       <div class="payment-row">
         <div class="payment-option">
           <div class="payment-title">支付宝支付</div>
@@ -24,16 +22,14 @@
           </div>
           <span class="btn" @click.prevent="openAlipay">打开支付宝付款</span>
         </div>
-
         <div class="payment-option">
           <div class="payment-title">微信支付</div>
           <div class="qr-placeholder">
             <img :src="wechatQr" alt="微信二维码" />
           </div>
-          <span class="btn btn-wechat">请扫描二维码付款</span>
+          <span class="btn btn-wechat" @click.prevent="openWeChatModal(false)">请扫描二维码付款</span>
         </div>
       </div>
-
       <div class="footer">
         <p>扫描二维码或点击按钮进行支付</p>
       </div>
@@ -51,6 +47,12 @@ const wechatQr = import.meta.env.VITE_WECHAT_QR_URL
 const ua = navigator.userAgent.toLowerCase()
 const isWeChat = ua.includes('micromessenger')
 const showWeChatModal = ref(isWeChat)
+const showModalText = ref(isWeChat)
+
+function openWeChatModal(showText) {
+  showWeChatModal.value = true
+  showModalText.value = showText
+}
 
 function closeWeChatModal() {
   showWeChatModal.value = false
@@ -78,7 +80,7 @@ body {
 }
 .container {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 50px auto;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -102,10 +104,10 @@ h1 {
   align-items: center;
 }
 .qr-placeholder {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   background-color: #f1f1f1;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,8 +119,8 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  max-width: 180px;
-  max-height: 180px;
+  max-width: 200px;
+  max-height: 200px;
 }
 .btn {
   display: inline-block;
@@ -130,6 +132,9 @@ h1 {
   font-weight: 500;
   margin-top: 10px;
   transition: background-color 0.2s;
+}
+.btn:hover {
+  cursor: pointer;
 }
 .btn-wechat {
   background-color: #07c160;
