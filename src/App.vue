@@ -27,7 +27,7 @@
           <div class="qr-placeholder">
             <img :src="wechatQr" alt="微信二维码" />
           </div>
-          <span class="btn btn-wechat" @click.prevent="openWeChatModal(false)">请扫描二维码付款</span>
+          <span class="btn btn-wechat" @click.prevent="openWeChatModal(false)">扫描二维码付款</span>
         </div>
       </div>
       <div class="footer">
