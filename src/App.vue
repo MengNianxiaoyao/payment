@@ -1,16 +1,20 @@
 <template>
   <div>
     <!-- 微信内置浏览器弹窗提示 -->
-    <div v-if="showWeChatModal" class="modal-overlay">
-      <div class="modal">
-        <div class="modal-title">请扫描二维码付款</div>
-        <div v-if="showModalText" class="modal-text">检测到你正在使用微信内置浏览器，请保存下方二维码后扫码完成付款。</div>
-        <div class="qr-placeholder">
-          <img :src="wechatQr" alt="微信二维码" />
-        </div>
-        <span class="btn btn-wechat" @click.prevent="closeWeChatModal">我知道了</span>
+    <Transition name="overlay">
+      <div v-if="showWeChatModal" class="modal-overlay">
+        <Transition name="popup">
+          <div class="modal">
+            <div class="modal-title">请扫描二维码付款</div>
+            <div v-if="showModalText" class="modal-text">检测到你正在使用微信内置浏览器，请保存下方二维码后扫码完成付款。</div>
+            <div class="qr-placeholder">
+              <img :src="wechatQr" alt="微信二维码" />
+            </div>
+            <span class="btn btn-wechat" @click.prevent="closeWeChatModal">我知道了</span>
+          </div>
+        </Transition>
       </div>
-    </div>
+    </Transition>
     <div class="container">
       <h1>聚合支付</h1>
       <p>请选择以下任一方式进行支付</p>
@@ -37,19 +41,19 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 
-const alipayUrl = import.meta.env.VITE_ALIPAY_URL
-const alipayQr = import.meta.env.VITE_ALIPAY_QR_URL
-const wechatQr = import.meta.env.VITE_WECHAT_QR_URL
+const alipayUrl: string = import.meta.env.VITE_ALIPAY_URL
+const alipayQr: string = import.meta.env.VITE_ALIPAY_QR_URL
+const wechatQr: string = import.meta.env.VITE_WECHAT_QR_URL
 
 const ua = navigator.userAgent.toLowerCase()
 const isWeChat = ua.includes('micromessenger')
-const showWeChatModal = ref(isWeChat)
-const showModalText = ref(isWeChat)
+const showWeChatModal = ref<boolean>(isWeChat)
+const showModalText = ref<boolean>(isWeChat)
 
-function openWeChatModal(showText) {
+function openWeChatModal(showText: boolean) {
   showWeChatModal.value = true
   showModalText.value = showText
 }
@@ -193,5 +197,36 @@ h1 {
   font-size: 14px;
   color: #666;
   margin-bottom: 16px;
+}
+
+.overlay-enter-active,
+.overlay-leave-active {
+  transition: opacity .26s ease;
+}
+.overlay-enter-from,
+.overlay-leave-to {
+  opacity: 0;
+}
+
+@keyframes popup-in {
+  0% { transform: translateY(16px) scale(0.92); opacity: 0; }
+  60% { transform: translateY(-4px) scale(1.04); opacity: 1; }
+  80% { transform: translateY(2px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes popup-out {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  20% { transform: translateY(2px) scale(0.98); opacity: 1; }
+  100% { transform: translateY(12px) scale(0.92); opacity: 0; }
+}
+
+.popup-enter-active { 
+  animation: popup-in .3s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+.popup-leave-active {
+  animation: popup-out .22s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
 }
 </style>

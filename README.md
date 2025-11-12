@@ -41,8 +41,8 @@ VITE_ALIPAY_QR_URL="YOUR_ALIPAY_QR_CODE_URL"
 VITE_WECHAT_QR_URL="YOUR_WECHAT_QR_CODE_URL"
 ```
 
-- `VITE_ALIPAY_URL`：您的支付宝支付链接。
-- `VITE_ALIPAY_QR_URL`：您的支付宝二维码图片的 URL。
-- `VITE_WECHAT_QR_URL`：您的微信支付二维码图片的 URL。
+- `VITE_ALIPAY_URL`：您的支付宝收款链接。
+- `VITE_ALIPAY_QR_URL`：您的支付宝收款二维码图片的 URL。
+- `VITE_WECHAT_QR_URL`：您的微信收款二维码图片的 URL。
 
 对于生产环境，您需要创建一个 `.env` 文件并添加相同的变量。
